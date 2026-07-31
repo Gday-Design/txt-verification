@@ -8,7 +8,7 @@ Brand truth pulled live from truegear.com.au's own CSS (measured by hex frequenc
 - **Panel / secondary:** `#063852` — deep structural blue, for cards and panel fills
 - **Accent:** `#f0810f` — amber/orange, the site's CTA and highlight color. Use at full saturation for focal hits (spec numbers, CTA), 15–25% for atmospheric glows.
 - **Foreground:** `#ffffff` — white, primary text on dark
-- **Neutral:** `#7c7873` — warm grey, muted labels/metadata only
+- **Neutral:** `#9f9c98` — warm grey, muted labels/metadata only
 
 One background across all scenes (`#011a27`), one accent hue (`#f0810f`). No gradient text, no cyan/purple defaults.
 

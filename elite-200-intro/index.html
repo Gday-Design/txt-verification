@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="assets/vendor/gsap.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -16,15 +16,21 @@
         width: 1920px;
         height: 1080px;
         overflow: hidden;
-        background: #000;
+        background: #011a27;
       }
       body {
-        font-family: "Inter", sans-serif;
+        font-family: "Archivo Black", sans-serif;
       }
-      code,
-      pre,
-      .monospace {
-        font-family: "JetBrains Mono", monospace;
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #011a27;
+      }
+      #root > div[data-composition-src] {
+        position: absolute;
+        inset: 0;
       }
     </style>
   </head>
@@ -33,27 +39,62 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="10"
+      data-duration="30"
       data-width="1920"
       data-height="1080"
     >
-      
-      
+      <!-- Frame 1 — Cold open (source footage). Placeholder until the trimmed clip lands. -->
+      <div
+        id="el-cold-open"
+        data-composition-id="01-cold-open"
+        data-composition-src="compositions/frames/01-cold-open.html"
+        data-start="0"
+        data-duration="3"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
 
-      <!--
-        Add your clips here. Example:
-        <div id="title" class="clip" data-start="0" data-duration="5" data-track-index="1"
-             style="font-size: 64px; color: #fff; padding: 40px">
-          Hello World
-        </div>
-      -->
+      <!-- Frame 2 — Product card reveal -->
+      <div
+        id="el-product-card"
+        data-composition-id="02-product-card"
+        data-composition-src="compositions/frames/02-product-card.html"
+        data-start="3"
+        data-duration="11"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- Frame 3 — Power flow & comparison -->
+      <div
+        id="el-power-flow-comparison"
+        data-composition-id="03-power-flow-comparison"
+        data-composition-src="compositions/frames/03-power-flow-comparison.html"
+        data-start="14"
+        data-duration="12"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- Frame 4 — Brand close -->
+      <div
+        id="el-brand-close"
+        data-composition-id="04-brand-close"
+        data-composition-src="compositions/frames/04-brand-close.html"
+        data-start="26"
+        data-duration="4"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.from("#title", { opacity: 0, y: -50, duration: 1 }, 0);
-      window.__timelines["main"] = tl;
+      window.__timelines["main"] = gsap.timeline({ paused: true });
     </script>
   </body>
 </html>

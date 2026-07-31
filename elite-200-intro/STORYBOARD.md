@@ -33,7 +33,7 @@ mode: collaborative
 
 **Depth:** BG navy fill + breathing accent glow. MG product shot + name. FG hero spec chip + True Gear logo mark, bottom-corner anchored.
 
-**Blocked on:** confirmed hero spec number (capacity or output) — do not invent; pull from footage on-screen graphics/VO or ask.
+**Resolved:** hero spec confirmed — **2073.6Wh / 2600W**. Product asset: `assets/product/elite200-cutout.png` (isolated cutout, sourced from Drive's existing `elite200_card2.png` card asset).
 
 ## Frame 3 — Power flow & comparison
 
@@ -43,7 +43,7 @@ mode: collaborative
 - status: outline
 - src: compositions/frames/03-power-flow-comparison.html
 
-**Concept:** This is the proof beat — the video stops telling and starts showing. A battery icon/render on one side, energy visibly PULSES/FLOWS along a connecting path into an inverter icon, output wattage COUNTS UP as it arrives. The comparison sits underneath or alongside as a second, simultaneous proof: Elite 200 left, comparison product right, on `#063852` panels, one differentiating stat per side.
+**Concept:** This is the proof beat — the video stops telling and starts showing. A battery icon/render on one side, energy visibly PULSES/FLOWS along a connecting path into an inverter icon, output wattage COUNTS UP to **2600W** (3900W surge) as it arrives. The comparison sits underneath or alongside as a second, simultaneous proof: Elite 200 V2 left (2073.6Wh / 2600W), **BLUETTI AC180P** right (1440Wh / 1800W), on `#063852` panels, one differentiating stat per side.
 
 **Mood:** Technical but warm — an engineering diagram, not a lab chart. Precision with adventure-brand confidence.
 
@@ -53,7 +53,7 @@ mode: collaborative
 
 **SFX:** optional soft power-up hum under the flow animation; a clean tick on each comparison card's arrival.
 
-**Blocked on:** capacity/output figures for the flow graphic; identity of the comparison product and its differentiating stat. Do not fabricate — pull from footage, Shopify catalog, or ask.
+**Resolved:** figures and comparison product confirmed (see above). Assets: `assets/product/elite200-cutout.png` (isolated), `assets/product/ac180p-tight.jpg` (tightly cropped product photo, natural background kept and framed rather than isolated — see BRIEF.md `## Assets` for why).
 
 ## Frame 4 — Brand close
 

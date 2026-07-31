@@ -19,14 +19,29 @@ A 30-second product intro for the True Gear Elite 200 portable power station, bu
 
 - Google Drive → Team/True Gear/Claude/Video Editing/Elite 200 Video.mp4 — source footage, first ~30s only. Original file is 733MB (exceeds this environment's 10MB Drive-download cap); user is trimming/re-exporting a short opening clip to the same folder so it can be pulled in. **Build is paused on this asset landing.**
 - Brand colors pulled live from truegear.com.au's own CSS (not guessed): `#011a27` primary dark navy background, `#063852` secondary deep blue, `#f0810f` amber/orange accent (CTA color), `#ffffff` white, `#7c7873` neutral warm grey.
-- Product comparison imagery: not yet supplied — will pull from the True Gear Shopify catalog (product photos) for the comparison beat unless the user provides specific competitor/product shots.
+- Comparison product: **BLUETTI AC180P** (user's choice, confirmed — "180p") — 1440Wh LiFePO4, 1800W continuous AC. Confirmed directly off the unit's own printed spec label in the product photo found in Drive (`ac180p.jpg`, reads "AC180P 1440Wh 1800W"), corroborated by the [Wellbots listing](https://www.wellbots.com/products/bluetti-ac180-p-solar-portable-power-station-1-800w-1-152-1-440wh).
+- Product imagery — found in Drive, no need to source externally:
+  - `assets/product/elite200-cutout.png` — clean isolated Elite 200 V2 cutout, background removed (cropped from `elite200_card2.png`, an existing True Gear card asset in Drive)
+  - `assets/product/ac180p-tight.jpg` — tightly cropped AC180P product photo (from `ac180p.jpg` in Drive); natural outdoor background kept and framed rather than isolated, since automated cutout (u2net human-segmentation model) isn't reliable on a non-human subject against a busy rock/mountain background
+  - `assets/product/elite-200.png` — Elite 200 V2 rear panel spec sheet (found in Drive), cross-confirms 2600W/2073.6Wh
 
 ## Customizations
 
-- **Beat 1 (~0–14s):** Open on the source footage, then transition into a designed "product card" — a nice animated reveal of the Elite 200 (product shot, name, key spec callout).
-- **Beat 2 (~14–30s):** Battery-capacity → inverter graphic — a visual of stored energy/capacity flowing from the battery into the inverter (power-flow animation), communicating real output capability.
-- **Beat 3 (woven through, not a separate segment):** Side-by-side product comparison — Elite 200 image on one side, a comparison product on the other, while VO/on-screen text calls out the difference.
+- **Beat 1 (~0–14s):** Open on the source footage, then transition into a designed "product card" — a nice animated reveal of the Elite 200 (product shot, name, key spec callout: **2073.6Wh / 2600W**).
+- **Beat 2 (~14–30s):** Battery-capacity → inverter graphic — a visual of stored energy/capacity flowing from the battery into the inverter (power-flow animation), landing on **2600W continuous / 3900W surge**.
+- **Beat 3 (woven through, not a separate segment):** Side-by-side product comparison — Elite 200 V2 (2073.6Wh / 2600W) vs. **BLUETTI AC180P** (1440Wh / 1800W), while VO/on-screen text calls out the difference.
 - Overall edit favors graphics, motion, and on-screen spec callouts over spoken narration — cut talking-head time down, let visuals carry the claims.
+
+## Real specs (confirmed, sourced — do not alter without a source)
+
+| | Elite 200 V2 | AC180P |
+|---|---|---|
+| Capacity | 2073.6Wh LiFePO4 | 1440Wh LiFePO4 |
+| AC output | 2600W continuous | 1800W continuous |
+| Surge/peak | 3900W | — (not needed on card; not printed on the label) |
+| Charge 0-80% | 50 min (TurboBoost) | — |
+
+Sources: [Walmart](https://www.walmart.com/ip/BLUETTI-Elite-200-V2-Portable-Power-Station-2073-6Wh-LiFePO4-Battery-4-AC-Outlets-2600W-3900W-Surge-Solar-Generator-Camping-Off-Grid-Power-Outages/14111314784), [Amazon (Elite 200 V2)](https://www.amazon.com/BLUETTI-Elite-200-V2-Generator/dp/B0DCJV9LTB); AC180P capacity/output read directly off the unit's own printed label in `ac180p.jpg` (Drive), corroborated by [Wellbots](https://www.wellbots.com/products/bluetti-ac180-p-solar-portable-power-station-1-800w-1-152-1-440wh).
 
 ## Notes
 
