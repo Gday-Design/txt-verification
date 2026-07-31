@@ -1,0 +1,508 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          background: #011a27;
+          overflow: hidden;
+          opacity: 0;
+        }
+
+        .phase {
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+        }
+
+        /* ══════════════ PHASE A — power flow ══════════════ */
+        .flow-label {
+          position: absolute;
+          top: 120px;
+          left: 0;
+          right: 0;
+          text-align: center;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: #9f9c98;
+          opacity: 0;
+        }
+
+        .flow-stage {
+          position: absolute;
+          top: 340px;
+          left: 260px;
+          right: 260px;
+          height: 260px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .battery {
+          position: relative;
+          width: 300px;
+          height: 220px;
+          border: 5px solid #063852;
+          border-radius: 20px;
+          background: rgba(6, 56, 82, 0.35);
+          transform: scale(0.85);
+          opacity: 0;
+        }
+        .battery-fill-mask {
+          position: absolute;
+          inset: 0;
+          border-radius: 15px;
+          overflow: hidden;
+        }
+        .battery-nub {
+          position: absolute;
+          right: -26px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 20px;
+          height: 90px;
+          background: #063852;
+          border-radius: 0 6px 6px 0;
+        }
+        .battery-fill {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(180deg, #f0810f 0%, #c96a0c 100%);
+          transform: scaleY(0);
+          transform-origin: bottom center;
+        }
+        .battery-label {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "JetBrains Mono", monospace;
+          font-weight: 700;
+          font-size: 40px;
+          color: #ffffff;
+          z-index: 2;
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .flow-path-wrap {
+          flex: 1;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .flow-path-wrap svg {
+          width: 100%;
+          height: 60px;
+          overflow: visible;
+        }
+        .flow-path {
+          fill: none;
+          stroke: #f0810f;
+          stroke-width: 6;
+          stroke-linecap: round;
+        }
+        .flow-pulse {
+          fill: #f0810f;
+          opacity: 0;
+        }
+
+        .inverter {
+          position: relative;
+          width: 240px;
+          height: 220px;
+          border: 5px solid #063852;
+          border-radius: 20px;
+          background: rgba(6, 56, 82, 0.35);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transform: scale(0.85);
+          opacity: 0;
+        }
+        .inverter svg {
+          width: 96px;
+          height: 96px;
+        }
+        .inverter-glow {
+          position: absolute;
+          inset: -60px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(240, 129, 15, 0.5) 0%, rgba(240, 129, 15, 0) 70%);
+          opacity: 0;
+          z-index: -1;
+        }
+
+        .output-row {
+          position: absolute;
+          top: 630px;
+          left: 0;
+          right: 0;
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+          gap: 40px;
+        }
+        .output-value-wrap {
+          display: flex;
+          align-items: baseline;
+        }
+        .output-value {
+          font-family: "JetBrains Mono", monospace;
+          font-variant-numeric: tabular-nums;
+          font-weight: 700;
+          font-size: 140px;
+          color: #f0810f;
+          transform-origin: center center;
+          transform: scale(0.55);
+        }
+        .output-suffix {
+          font-family: "JetBrains Mono", monospace;
+          font-weight: 700;
+          font-size: 64px;
+          color: #f0810f;
+          margin-left: 8px;
+        }
+        .output-caption {
+          position: absolute;
+          top: 870px;
+          left: 0;
+          right: 0;
+          text-align: center;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 26px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #9f9c98;
+          opacity: 0;
+        }
+        .output-caption b {
+          color: #ffffff;
+        }
+
+        /* ══════════════ PHASE B — comparison ══════════════ */
+        .compare-scene {
+          display: grid;
+          place-items: center;
+          width: 100%;
+          height: 100%;
+          perspective: 1800px;
+        }
+        .compare-heading {
+          position: absolute;
+          top: 110px;
+          left: 0;
+          right: 0;
+          text-align: center;
+          font-family: "Archivo Black", sans-serif;
+          font-size: 52px;
+          color: #ffffff;
+          opacity: 0;
+        }
+        .split-stage {
+          display: flex;
+          gap: 80px;
+          transform-style: preserve-3d;
+        }
+        .cmp-card {
+          width: 620px;
+          padding: 56px 48px;
+          background: #063852;
+          border-radius: 20px;
+          transform-style: preserve-3d;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+          will-change: transform;
+        }
+        .cmp-card.left {
+          box-shadow: -30px 40px 70px rgba(0, 0, 0, 0.45);
+        }
+        .cmp-card.right {
+          box-shadow: 30px 40px 70px rgba(0, 0, 0, 0.45);
+        }
+        .cmp-card img {
+          width: 100%;
+          max-height: 260px;
+          object-fit: contain;
+          border-radius: 10px;
+        }
+        .cmp-card.left img {
+          background: transparent;
+        }
+        .cmp-card.right img {
+          border-radius: 14px;
+        }
+        .cmp-name {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 40px;
+          color: #ffffff;
+          text-align: center;
+        }
+        .cmp-stats {
+          font-family: "JetBrains Mono", monospace;
+          font-variant-numeric: tabular-nums;
+          font-size: 34px;
+          font-weight: 700;
+          color: #f0810f;
+          text-align: center;
+        }
+        .cmp-brand {
+          font-family: "JetBrains Mono", monospace;
+          font-size: 20px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #9f9c98;
+        }
+
+        .vs-badge {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(0);
+          width: 110px;
+          height: 110px;
+          border-radius: 50%;
+          background: #f0810f;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "Archivo Black", sans-serif;
+          font-size: 34px;
+          color: #011a27;
+          z-index: 5;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="03-power-flow-comparison"
+        data-width="1920"
+        data-height="1080"
+      >
+        <!-- PHASE A -->
+        <div class="phase" id="phase-flow">
+          <div class="flow-label">Stored capacity → real output</div>
+
+          <div class="flow-stage">
+            <div class="battery" id="flow-battery">
+              <div class="battery-fill-mask">
+                <div class="battery-fill" id="flow-battery-fill"></div>
+              </div>
+              <div class="battery-nub"></div>
+              <div class="battery-label">2073.6Wh</div>
+            </div>
+
+            <div class="flow-path-wrap">
+              <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                <path id="flow-line" class="flow-path" d="M 2 10 L 98 10" />
+                <circle id="flow-dot" class="flow-pulse" cx="2" cy="10" r="2.4" />
+              </svg>
+            </div>
+
+            <div class="inverter" id="flow-inverter">
+              <div class="inverter-glow" id="flow-inverter-glow"></div>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M13 2 L4 14h6l-1 8 9-12h-6l1-8z"
+                  fill="#f0810f"
+                  stroke="#f0810f"
+                  stroke-width="1"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div class="output-row">
+            <div class="output-value-wrap">
+              <span class="output-value" id="flow-output">0</span
+              ><span class="output-suffix">W</span>
+            </div>
+          </div>
+          <div class="output-caption" id="flow-caption">
+            continuous · <b>3900W</b> surge
+          </div>
+        </div>
+
+        <!-- PHASE B -->
+        <div class="phase" id="phase-compare">
+          <div class="compare-heading" id="cmp-heading">More capacity where it counts</div>
+          <div class="compare-scene">
+            <div class="split-stage">
+              <div class="cmp-card left" id="cmp-left">
+                <div class="cmp-brand">BLUETTI</div>
+                <img src="assets/product/elite200-cutout.png" alt="Elite 200 V2" />
+                <div class="cmp-name">Elite 200 V2</div>
+                <div class="cmp-stats">2073.6Wh · 2600W</div>
+              </div>
+              <div class="cmp-card right" id="cmp-right">
+                <div class="cmp-brand">BLUETTI</div>
+                <img src="assets/product/ac180p-tight.jpg" alt="AC180P" />
+                <div class="cmp-name">AC180P</div>
+                <div class="cmp-stats">1440Wh · 1800W</div>
+              </div>
+            </div>
+            <div class="vs-badge" id="cmp-vs">VS</div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        const DUR = 12;
+        const PHASE_B_START = 6;
+
+        // Scene self-fade in / out (dissolve against the shared navy bg).
+        tl.fromTo("#root", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0);
+        tl.to("#root", { opacity: 0, duration: 0.4, ease: "power1.in" }, DUR - 0.4);
+
+        // Binary phase switch (multi-scene merge pattern) — instant, not tweened.
+        tl.set("#phase-flow", { opacity: 1 }, 0);
+        tl.set("#phase-flow", { opacity: 0 }, PHASE_B_START);
+        tl.set("#phase-compare", { opacity: 1 }, PHASE_B_START);
+
+        // ═══════════ PHASE A — power flow ═══════════
+        tl.fromTo(
+          ".flow-label",
+          { opacity: 0, y: -12 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.2,
+        );
+
+        // battery + inverter housings pop in
+        tl.fromTo(
+          "#flow-battery",
+          { scale: 0.85, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          0.3,
+        );
+        tl.fromTo(
+          "#flow-inverter",
+          { scale: 0.85, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          0.3,
+        );
+
+        // battery fills to full — stat-bars-and-fills progress form
+        tl.to("#flow-battery-fill", { scaleY: 1, duration: 1.0, ease: "power2.out" }, 0.6);
+
+        // energy trail draws battery → inverter — svg-path-draw
+        const flowLine = document.getElementById("flow-line");
+        const flowLen = flowLine.getTotalLength();
+        flowLine.style.strokeDasharray = String(flowLen);
+        flowLine.style.strokeDashoffset = String(flowLen);
+        tl.to(
+          flowLine,
+          { strokeDashoffset: 0, duration: 0.9, ease: "power2.out" },
+          1.5,
+        );
+        // a single pulse rides the trail as it draws
+        tl.fromTo(
+          "#flow-dot",
+          { opacity: 0, attr: { cx: 2 } },
+          { opacity: 1, attr: { cx: 98 }, duration: 0.9, ease: "power2.out" },
+          1.5,
+        );
+        tl.to("#flow-dot", { opacity: 0, duration: 0.2, ease: "power1.in" }, 2.4);
+
+        // inverter lights up on arrival
+        tl.fromTo(
+          "#flow-inverter-glow",
+          { opacity: 0, scale: 0.8 },
+          { opacity: 0.35, scale: 1, duration: 0.4, ease: "power2.out" },
+          2.4,
+        );
+
+        // output counts up — counting-dynamic-scale
+        const outState = { value: 0 };
+        const outEl = document.getElementById("flow-output");
+        tl.to(
+          outState,
+          {
+            value: 2600,
+            duration: 1.4,
+            ease: "power3.out",
+            onUpdate: () => {
+              outEl.textContent = Math.round(outState.value).toLocaleString();
+            },
+          },
+          2.5,
+        );
+        tl.fromTo(
+          "#flow-output",
+          { scale: 0.55 },
+          { scale: 1, duration: 1.4, ease: "power3.out" },
+          2.5,
+        );
+        tl.fromTo(
+          "#flow-caption",
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          3.9,
+        );
+
+        // ═══════════ PHASE B — comparison (split-tilt-cards) ═══════════
+        const B = PHASE_B_START;
+        tl.fromTo(
+          "#cmp-heading",
+          { opacity: 0, y: -16 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          B + 0.1,
+        );
+
+        tl.fromTo(
+          "#cmp-left",
+          { x: -350, rotateY: 22, opacity: 0 },
+          { x: 0, rotateY: 14, opacity: 1, duration: 0.8, ease: "power3.out" },
+          B + 0.3,
+        );
+        tl.fromTo(
+          "#cmp-right",
+          { x: 350, rotateY: -22, opacity: 0 },
+          { x: 0, rotateY: -14, opacity: 1, duration: 0.8, ease: "power3.out" },
+          B + 0.45,
+        );
+
+        // counter-phase idle bob while the pair holds
+        tl.to(
+          "#cmp-left",
+          { y: -6, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 3 },
+          B + 1.3,
+        );
+        tl.to(
+          "#cmp-right",
+          { y: 6, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 3 },
+          B + 1.3,
+        );
+
+        // VS badge spring-pops once both cards have landed
+        tl.fromTo(
+          "#cmp-vs",
+          { scale: 0 },
+          { scale: 1, duration: 0.5, ease: "back.out(1.8)" },
+          B + 1.2,
+        );
+
+        window.__timelines["03-power-flow-comparison"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
